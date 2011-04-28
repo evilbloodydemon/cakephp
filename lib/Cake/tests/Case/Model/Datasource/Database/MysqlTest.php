@@ -2508,6 +2508,22 @@ class DboMysqlTest extends CakeTestCase {
 	}
 
 /**
+ * testRenderStatementWithFilter method
+ *
+ * @access public
+ * @return void
+ */
+	function testRenderStatementWithFilter() {
+		$this->Dbo->setSqlFilter('strtolower');
+		$result = $this->Dbo->renderStatement('select', array(
+			'fields' => 'id', 'table' => 'table', 'conditions' => 'WHERE 1=1',
+			'alias' => '', 'joins' => '', 'order' => '', 'limit' => '', 'group' => ''
+		));
+		$this->assertPattern('/^\s*select\s+id\s+from\s+table\s+where\s+1=1\s*$/', $result);
+		$this->Dbo->setSqlFilter(null);
+	}
+
+/**
  * testSchema method
  *
  * @access public
@@ -3407,5 +3423,22 @@ class DboMysqlTest extends CakeTestCase {
 			'password' => 'inyurdatabase',
 			'database' => 'imaginary'
 		));
+	}
+
+/**
+* testSetSqlFilter method
+*
+* @access public
+* @return void
+*/
+	function testSetSqlFilter() {
+		$result = $this->Dbo->setSqlFilter(1);
+		$this->assertFalse($result);
+
+		$result = $this->Dbo->setSqlFilter('strtolower');
+		$this->assertTrue($result);
+
+		$result = $this->Dbo->setSqlFilter(null);
+		$this->assertTrue($result);
 	}
 }
