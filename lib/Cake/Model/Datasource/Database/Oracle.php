@@ -925,22 +925,22 @@ class DboOracle extends DboSource {
 
 		switch (strtolower($type)) {
 			case 'select':
-				return "SELECT {$fields} FROM {$table} {$alias} {$joins} {$conditions} {$group} {$order} {$limit}";
+				return $this->applySqlFilter("SELECT {$fields} FROM {$table} {$alias} {$joins} {$conditions} {$group} {$order} {$limit}");
 			break;
 			case 'create':
-				return "INSERT INTO {$table} ({$fields}) VALUES ({$values})";
+				return $this->applySqlFilter("INSERT INTO {$table} ({$fields}) VALUES ({$values})");
 			break;
 			case 'update':
 				if (!empty($alias)) {
 					$aliases = "{$this->alias}{$alias} ";
 				}
-				return "UPDATE {$table} {$aliases}SET {$fields} {$conditions}";
+				return $this->applySqlFilter("UPDATE {$table} {$aliases}SET {$fields} {$conditions}");
 			break;
 			case 'delete':
 				if (!empty($alias)) {
 					$aliases = "{$this->alias}{$alias} ";
 				}
-				return "DELETE FROM {$table} {$aliases}{$conditions}";
+				return $this->applySqlFilter("DELETE FROM {$table} {$aliases}{$conditions}");
 			break;
 			case 'schema':
 				foreach (array('columns', 'indexes') as $var) {
@@ -951,7 +951,7 @@ class DboOracle extends DboSource {
 				if (trim($indexes) != '') {
 					$columns .= ',';
 				}
-				return "CREATE TABLE {$table} (\n{$columns}{$indexes})";
+				return $this->applySqlFilter("CREATE TABLE {$table} (\n{$columns}{$indexes})");
 			break;
 			case 'alter':
 				break;

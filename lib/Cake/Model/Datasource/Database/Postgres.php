@@ -876,7 +876,7 @@ class Postgres extends DboSource {
 						${$var} = implode($join[$var], array_filter(${$var}));
 					}
 				}
-				return "CREATE TABLE {$table} (\n\t{$columns}\n);\n{$indexes}";
+				return $this->applySqlFilter("CREATE TABLE {$table} (\n\t{$columns}\n);\n{$indexes}");
 			break;
 			default:
 				return parent::renderStatement($type, $data);

@@ -519,7 +519,7 @@ class Sqlite extends DboSource {
 				if (is_array($indexes)) {
 					$indexes = "\t" . join("\n\t", array_filter($indexes));
 				}
-				return "CREATE TABLE {$table} (\n{$columns});\n{$indexes}";
+				return $this->applySqlFilter("CREATE TABLE {$table} (\n{$columns});\n{$indexes}");
 			break;
 			default:
 				return parent::renderStatement($type, $data);
